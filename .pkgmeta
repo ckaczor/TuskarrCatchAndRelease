@@ -1,0 +1,42 @@
+﻿package-as: TuskarrCatchAndRelease
+
+externals:
+    Libs/LibStub:
+        url: https://repos.wowace.com/wow/libstub/trunk
+        tag: latest
+    Libs/CallbackHandler-1.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/CallbackHandler-1.0
+        tag: latest     
+    Libs/LibQTip-1.0:
+        url: https://repos.wowace.com/wow/libqtip-1-0
+        tag: latest
+    Libs/LibDataBroker-1.1:
+        url: git://github.com/tekkub/libdatabroker-1-1.git
+        tag: latest
+    Libs/AceLocale-3.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/AceLocale-3.0
+        tag: latest
+    Libs/AceConsole-3.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/AceConsole-3.0
+        tag: latest
+    Libs/AceAddon-3.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/AceAddon-3.0
+        tag: latest
+    Libs/AceEvent-3.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/AceEvent-3.0
+        tag: latest
+    Libs/AceTimer-3.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/AceTimer-3.0
+        tag: latest
+    Libs/AceConfig-3.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/AceConfig-3.0
+        tag: latest
+    Libs/AceDB-3.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/AceDB-3.0
+        tag: latest
+    Libs/AceGUI-3.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/AceGUI-3.0
+        tag: latest
+    Libs/LibDBIcon-1.0:
+        url: https://repos.wowace.com/wow/libdbicon-1-0/trunk/LibDBIcon-1.0
+        tag: latest
