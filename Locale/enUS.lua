@@ -5,7 +5,7 @@ if not L then
     return
 end
 
-L["Tuskarr Catch and Release"] = true
+L["Tuskarr Restock Tracker"] = true
 L["Catch and Release: Scalebelly Mackerel"] = true
 L["Catch and Release: Thousandbite Piranha"] = true
 L["Catch and Release: Aileron Seamoth"] = true

@@ -1,9 +1,9 @@
 ## Interface: 100000
-## Title: Tuskarr Catch and Release
+## Title: Tuskarr Restock Tracker
 ## Version: 10.0.0
 ## Notes: Helps with the weekly Iskaara Tuskarr fishing quests ("Catch and Release") by keeping track of what quests have been completed and what fish are required.
 ## Author: Amanoa
-## SavedVariables: TuskarrCatchAndReleaseDB
+## SavedVariables: TuskarrRestockTrackerDB
 ## OptionalDeps: Ace3, AceEvent-3.0, LibQTip-1.0, LibStub, AceTimer-3.0, AceConsole-3.0
 
 #@no-lib-strip@ 
@@ -28,4 +28,4 @@ Locale\deDE.lua
 
 Data.lua
 Sort.lua
-TuskarrCatchAndRelease.lua
+TuskarrRestockTracker.lua

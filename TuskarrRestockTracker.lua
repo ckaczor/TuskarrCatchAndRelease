@@ -1,6 +1,6 @@
 local ADDON_NAME, private = ...
 
-TuskarrCatchAndRelease = LibStub("AceAddon-3.0"):NewAddon(ADDON_NAME, "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0")
+TuskarrRestockTracker = LibStub("AceAddon-3.0"):NewAddon(ADDON_NAME, "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0")
 local L = LibStub("AceLocale-3.0"):GetLocale(ADDON_NAME)
 local LibQTip = LibStub("LibQTip-1.0")
 local LibDBIcon = LibStub("LibDBIcon-1.0")
@@ -19,7 +19,7 @@ local defaults = {
 }
 
 local options = {
-    name = L["Tuskarr Catch and Release"],
+    name = L["Tuskarr Restock Tracker"],
     type = "group",
     args = {
         minimap_icon = {
@@ -32,7 +32,7 @@ local options = {
             end,
             set = function(info, value)
                 private.db.global.minimap_icon.hide = not value
-                TuskarrCatchAndRelease:UpdateMinimapConfig()
+                TuskarrRestockTracker:UpdateMinimapConfig()
             end
         }
     }
@@ -41,8 +41,8 @@ local options = {
 local LDB = LibStub("LibDataBroker-1.1"):NewDataObject(ADDON_NAME, {
     type = "data source",
     icon = "Interface\\Icons\\Inv_fishing_netlinen01",
-    label = L["Tuskarr Catch and Release"],
-    text = L["Tuskarr Catch and Release"],
+    label = L["Tuskarr Restock Tracker"],
+    text = L["Tuskarr Restock Tracker"],
     OnClick = function(clickedframe, button)
         if not private.loaded then
             return
@@ -61,34 +61,34 @@ local LDB = LibStub("LibDataBroker-1.1"):NewDataObject(ADDON_NAME, {
         elseif button == "RightButton" then
             private.need_index = private.need_index + 1
 
-            TuskarrCatchAndRelease:UpdateText()
+            TuskarrRestockTracker:UpdateText()
         end
     end
 })
 
-function TuskarrCatchAndRelease:OnInitialize()
+function TuskarrRestockTracker:OnInitialize()
     private.pinned = false
     private.need_index = 1
     private.loaded = false
     private.item_name_table = {}
 
     -- Create the database with defaults
-    private.db = LibStub("AceDB-3.0"):New("TuskarrCatchAndReleaseDB", defaults)
+    private.db = LibStub("AceDB-3.0"):New("TuskarrRestockTrackerDB", defaults)
 
     -- Register options
-    AceConfig:RegisterOptionsTable(ADDON_NAME, options, {"/tcr"})
+    AceConfig:RegisterOptionsTable(ADDON_NAME, options, {"/trt"})
 
     -- Add to the options frame
-    private.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(ADDON_NAME, L["Tuskarr Catch and Release"])
+    private.optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(ADDON_NAME, L["Tuskarr Restock Tracker"])
 
     -- Register a chat command
-    self:RegisterChatCommand("tcr", "ChatCommand")
+    self:RegisterChatCommand("trt", "ChatCommand")
 
     -- Register the minimap icon
     LibDBIcon:Register(ADDON_NAME, LDB, private.db.global.minimap_icon)
 end
 
-function TuskarrCatchAndRelease:OnEnable()
+function TuskarrRestockTracker:OnEnable()
     -- Disable if the player is less than 10
     if (UnitLevel("player") < 10) then
         LDB.text = L["Disabled until level 10"]
@@ -100,29 +100,29 @@ function TuskarrCatchAndRelease:OnEnable()
     end
 
     -- Do the real enable
-    TuskarrCatchAndRelease:OnEnableCore()
+    TuskarrRestockTracker:OnEnableCore()
 end
 
-function TuskarrCatchAndRelease:PLAYER_LEVEL_UP(event, newLevel)
+function TuskarrRestockTracker:PLAYER_LEVEL_UP(event, newLevel)
     if (tonumber(newLevel) >= 10) then
         -- Do the real enable
-        TuskarrCatchAndRelease:OnEnableCore()
+        TuskarrRestockTracker:OnEnableCore()
 
         -- Done with player level events
         self:UnregisterEvent("PLAYER_LEVEL_UP")
     end
 end
 
-function TuskarrCatchAndRelease:OnEnableCore()
+function TuskarrRestockTracker:OnEnableCore()
     -- Show loading text
-    TuskarrCatchAndRelease:Print(L["Loading..."])
+    TuskarrRestockTracker:Print(L["Loading..."])
     LDB.text = L["Loading..."]
 
     -- Load item info from cache
-    TuskarrCatchAndRelease:LoadCache()
+    TuskarrRestockTracker:LoadCache()
 end
 
-function TuskarrCatchAndRelease:LoadCache()
+function TuskarrRestockTracker:LoadCache()
     local item_count = 0
     local item_loaded_count = 0
     local item_table = {}
@@ -152,22 +152,22 @@ function TuskarrCatchAndRelease:LoadCache()
 
             -- If everything is cached we're good to go
             if (item_count == item_loaded_count) then
-                TuskarrCatchAndRelease:OnLoaded(self)
+                TuskarrRestockTracker:OnLoaded(self)
             end
         end)
     end
 end
 
-function TuskarrCatchAndRelease:OnLoaded(self)
+function TuskarrRestockTracker:OnLoaded(self)
     -- Show loaded text
-    TuskarrCatchAndRelease:Print(L["Loaded"])
+    TuskarrRestockTracker:Print(L["Loaded"])
     LDB.text = L["Loaded"]
 
     self:RegisterEvent("QUEST_LOG_UPDATE")
     self:RegisterEvent("BAG_UPDATE")
 
-    TuskarrCatchAndRelease:UpdateData()
-    TuskarrCatchAndRelease:UpdateText()
+    TuskarrRestockTracker:UpdateData()
+    TuskarrRestockTracker:UpdateText()
 
     private.loaded = true
 end
@@ -188,11 +188,11 @@ local function SetSort(cell, sort)
         return
     end
 
-    TuskarrCatchAndRelease:UpdateData()
-    TuskarrCatchAndRelease:UpdateTooltip()
+    TuskarrRestockTracker:UpdateData()
+    TuskarrRestockTracker:UpdateTooltip()
 end
 
-function TuskarrCatchAndRelease:UpdateData()
+function TuskarrRestockTracker:UpdateData()
 
     -- Create a table to store all needs
     private.need_table = {}
@@ -263,7 +263,7 @@ function TuskarrCatchAndRelease:UpdateData()
         private.SORT_FUNCTIONS[private.db.global.sort_field .. "_" .. private.db.global.sort_dir])
 end
 
-function TuskarrCatchAndRelease:UpdateTooltip()
+function TuskarrRestockTracker:UpdateTooltip()
     if LibQTip:IsAcquired(ADDON_NAME) then
         private.tooltip:Clear()
     else
@@ -315,7 +315,7 @@ function TuskarrCatchAndRelease:UpdateTooltip()
         "LEFT", private.tooltip:GetColumnCount())
 end
 
-function TuskarrCatchAndRelease:UpdateText()
+function TuskarrRestockTracker:UpdateText()
     local need_index = 1
 
     if (private.need_index > private.need_count) then
@@ -351,42 +351,42 @@ function LDB.OnEnter(self)
     end
 
     private.LDB_ANCHOR = self
-    TuskarrCatchAndRelease:UpdateTooltip()
+    TuskarrRestockTracker:UpdateTooltip()
 
     private.tooltip:Show()
 end
 
-function TuskarrCatchAndRelease:QUEST_LOG_UPDATE()
+function TuskarrRestockTracker:QUEST_LOG_UPDATE()
     if not private.loaded then
         return
     end
 
-    TuskarrCatchAndRelease:UpdateData()
-    TuskarrCatchAndRelease:UpdateText()
+    TuskarrRestockTracker:UpdateData()
+    TuskarrRestockTracker:UpdateText()
 
     if not private.LDB_ANCHOR then
         return
     end
 
-    TuskarrCatchAndRelease:UpdateTooltip()
+    TuskarrRestockTracker:UpdateTooltip()
 end
 
-function TuskarrCatchAndRelease:BAG_UPDATE()
+function TuskarrRestockTracker:BAG_UPDATE()
     if not private.loaded then
         return
     end
 
-    TuskarrCatchAndRelease:UpdateData()
-    TuskarrCatchAndRelease:UpdateText()
+    TuskarrRestockTracker:UpdateData()
+    TuskarrRestockTracker:UpdateText()
 
     if not private.LDB_ANCHOR then
         return
     end
 
-    TuskarrCatchAndRelease:UpdateTooltip()
+    TuskarrRestockTracker:UpdateTooltip()
 end
 
-function TuskarrCatchAndRelease:UpdateMinimapConfig()
+function TuskarrRestockTracker:UpdateMinimapConfig()
     if private.db.global.minimap_icon.hide then
         LibDBIcon:Hide(ADDON_NAME)
     else
@@ -394,7 +394,7 @@ function TuskarrCatchAndRelease:UpdateMinimapConfig()
     end
 end
 
-function TuskarrCatchAndRelease:ChatCommand(input)
+function TuskarrRestockTracker:ChatCommand(input)
 
     local command, arg1 = self:GetArgs(input, 2)
 
@@ -408,10 +408,10 @@ function TuskarrCatchAndRelease:ChatCommand(input)
         InterfaceOptionsFrame_OpenToCategory(private.optionsFrame)
     elseif command == L["minimap"]:lower() then
         private.db.global.minimap_icon.hide = not private.db.global.minimap_icon.hide
-        TuskarrCatchAndRelease:UpdateMinimapConfig()
+        TuskarrRestockTracker:UpdateMinimapConfig()
     else
-        TuskarrCatchAndRelease:Print(L["Available commands:"])
-        TuskarrCatchAndRelease:Print("|cFF00C0FF" .. L["config"] .. "|r - " .. L["Show configuration"])
-        TuskarrCatchAndRelease:Print("|cFF00C0FF" .. L["minimap"] .. "|r - " .. L["Toggles the minimap icon"])
+        TuskarrRestockTracker:Print(L["Available commands:"])
+        TuskarrRestockTracker:Print("|cFF00C0FF" .. L["config"] .. "|r - " .. L["Show configuration"])
+        TuskarrRestockTracker:Print("|cFF00C0FF" .. L["minimap"] .. "|r - " .. L["Toggles the minimap icon"])
     end
 end

@@ -1,4 +1,4 @@
-﻿package-as: TuskarrCatchAndRelease
+﻿package-as: TuskarrRestockTracker
 
 externals:
     Libs/LibStub:
