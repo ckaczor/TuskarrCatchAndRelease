@@ -9,7 +9,6 @@ externals:
         tag: latest     
     Libs/LibQTip-1.0:
         url: https://repos.curseforge.com/wow/libqtip-1-0
-        commit: 4c6a3d882373fa0b52c6b71d09acc0b87ec1ae00        
     Libs/LibDataBroker-1.1:
         url: https://github.com/tekkub/libdatabroker-1-1
         tag: latest
@@ -40,3 +39,5 @@ externals:
     Libs/LibDBIcon-1.0:
         url: https://repos.wowace.com/wow/libdbicon-1-0/trunk/LibDBIcon-1.0
         tag: latest
+
+enable-nolib-creation: no
